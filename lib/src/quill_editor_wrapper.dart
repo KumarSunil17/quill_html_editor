@@ -894,7 +894,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
             // create an observer instance
             var tempText = "";
             var observer = new MutationObserver(function(mutations) {
-                 var text = quilleditor.root.innerHTML; 
+                 var text = quilleditor.getSemanticHTML(); 
                  if(text != tempText){
                       tempText = text;
                      if($kIsWeb) {
@@ -955,9 +955,9 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                       key: 'Enter',
                       handler: () => {
                          if($kIsWeb) {
-                          OnEditingCompleted(quilleditor.root.innerHTML);
+                          OnEditingCompleted(quilleditor.getSemanticHTML());
                           } else {
-                          OnEditingCompleted.postMessage(quilleditor.root.innerHTML);
+                          OnEditingCompleted.postMessage(quilleditor.getSemanticHTML());
                           }
                       }
                   }
@@ -1085,7 +1085,8 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
      
            
             function getHtmlText() {
-              return quilleditor.root.innerHTML;
+              return quilleditor.getSemanticHTML();
+              // return quilleditor.root.innerHTML;
             }
  
             function getPlainText() {
@@ -1180,7 +1181,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
             function requestFocus() {
               try{
-              var htmlString = quilleditor.root.innerHTML;
+              var htmlString = quilleditor.getSemanticHTML();//root.innerHTML;
                setTimeout(() => {
                     quilleditor.setSelection(htmlString.length + 1, htmlString.length + 1);
                     quilleditor.focus();
@@ -1260,7 +1261,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                 var range = quilleditor.getSelection(true);
                 if(range) {
                   if(range.length == 0) {
-                    quilleditor.removeFormat(range.index, quilleditor.root.innerHTML.length);
+                    quilleditor.removeFormat(range.index, quilleditor.getSemanticHTML().length);
                   } else {
                     quilleditor.removeFormat(range.index, range.length);
                   }
